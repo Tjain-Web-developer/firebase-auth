@@ -16,8 +16,8 @@ const SignUp = () => {
     }
   }
   return (
-    <div className='container d-flex my-3 flex-wrap' style={{width: '100%'}}>
-      <div className="card shadow me-5 overflow-hidden rounded-3 flex-shrink-0" style={{width: "300px"}}>
+    <div className='container d-flex flex-wrap' style={{width: '100%', gap: '20px'}}>
+      <div className="card shadow me-5 overflow-hidden rounded-3 flex-shrink-0" style={{minWidth: "250px", flex: '1'}}>
         <div className='text-light p-3' style={{height: '100px', backgroundColor: 'rgb(1,180,228)'}}>
           <h5 className='fw-bold'>Benefits of being a <br/> member</h5>
         </div>
@@ -64,9 +64,9 @@ const SignUp = () => {
           </p>
         </div>
       </div>
-      <form onSubmit={submitHandler} >
+      <form style={{minWidth:'65%', flex: '1'}} onSubmit={submitHandler} >
         <h4 className='fw-bold'>Signup for an account</h4>
-        <p className='fw-semibold'>Signing up for an account is free and easy. Fill out the form below to get started. JavaScript is required to to continue.</p>
+        <p className='fw-semibold'>Signing up for an account is free and easy. Fill out the form below to get started. JavaScript is required to continue.</p>
         {/* <div className="mb-3">
           <label htmlFor="exampleInputEmail1" className="form-label">Username</label>
           <input onChange={(e) => setUsername(e.target.value)} type="text" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"/>
