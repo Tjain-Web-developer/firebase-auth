@@ -1,6 +1,7 @@
 import { onAuthStateChanged, signOut } from 'firebase/auth';
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import { auth } from '../firebase';
 
 const Home = () => {
@@ -23,9 +24,10 @@ const Home = () => {
     const logout = async () => {
         try {
             await signOut(auth);
-            console.log("signed out successfully");
+            toast("signed out successfully");
         } catch (error) {
             console.log(error.message);
+            toast(error.message);
         }
     }
     
@@ -34,7 +36,7 @@ const Home = () => {
         {
             authUser
             ? (<>
-                <p>Signed in as {authUser.email}</p>
+                <p>Signed in as {authUser.displayName}</p>
                 <button onClick={logout} className='btn btn-primary'>Sign Out</button>
                 </>
               )

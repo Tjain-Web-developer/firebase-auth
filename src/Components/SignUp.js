@@ -1,20 +1,30 @@
-import { createUserWithEmailAndPassword } from 'firebase/auth';
+import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import React, { useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import { auth } from '../firebase';
 
 const SignUp = () => {
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
+
   const submitHandler = async (e) => {
     try {
       e.preventDefault();
-      const userDets = await createUserWithEmailAndPassword(auth, email, password);
-      console.log(userDets);
+      const {user} = await createUserWithEmailAndPassword(auth, email, password);
+      await updateProfile(user, { displayName: username.split(" ").join('-') })
+      if(user.accessToken){
+        navigate('/');
+        toast('Signed In Successfully');
+      }
     } catch (error) {
       console.log(error.message)
+      toast(error.message);
     }
   }
+
   return (
     <div className='container d-flex flex-wrap' style={{width: '100%', gap: '20px'}}>
       <div className="card shadow me-5 overflow-hidden rounded-3 flex-shrink-0" style={{minWidth: "250px", flex: '1'}}>
@@ -67,10 +77,10 @@ const SignUp = () => {
       <form style={{minWidth:'65%', flex: '1'}} onSubmit={submitHandler} >
         <h4 className='fw-bold'>Signup for an account</h4>
         <p className='fw-semibold'>Signing up for an account is free and easy. Fill out the form below to get started. JavaScript is required to continue.</p>
-        {/* <div className="mb-3">
-          <label htmlFor="exampleInputEmail1" className="form-label">Username</label>
-          <input onChange={(e) => setUsername(e.target.value)} type="text" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"/>
-        </div> */}
+        <div className="mb-3">
+          <label htmlFor="exampleInputEmail2" className="form-label">Username</label>
+          <input onChange={(e) => setUsername(e.target.value)} type="text" className="form-control" id="exampleInputEmail2" aria-describedby="emailHelp"/>
+        </div>
         <div className="mb-3">
           <label htmlFor="exampleInputEmail1" className="form-label">Email</label>
           <input onChange={(e) => setEmail(e.target.value)} type="email" className="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"/>
@@ -85,7 +95,7 @@ const SignUp = () => {
         </div> */}
         <p className='fw-semibold my-5'>By clicking the "Sign up" button below, I certify that I have read and agree to the TMDB terms of use and privacy policy.</p>
         <button type="submit" className="btn btn-primary px-4 fw-bold fs-6 border-0" style={{backgroundColor: 'rgb(1,180,228)'}}>Sign Up</button>
-        <a href="/" className='ms-3 fw-semibold text-decoration-none' style={{color: 'rgb(1,180,228)'}}>Cancel</a>
+        <Link to="/" className='ms-3 fw-semibold text-decoration-none' style={{color: 'rgb(1,180,228)'}}>Cancel</Link>
       </form>
     </div>
   )
