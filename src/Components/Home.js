@@ -24,10 +24,9 @@ const Home = () => {
     const logout = async () => {
         try {
             await signOut(auth);
-            toast("signed out successfully");
+            console.log("signed out successfully");
         } catch (error) {
             console.log(error.message);
-            toast(error.message);
         }
     }
     
@@ -36,7 +35,7 @@ const Home = () => {
         {
             authUser
             ? (<>
-                <p>Signed in as {authUser.displayName}</p>
+                <p>Signed in as {authUser.email}</p>
                 <button onClick={logout} className='btn btn-primary'>Sign Out</button>
                 </>
               )
